@@ -19,8 +19,21 @@ class DeviceViewModel @Inject constructor(private val repository: ScanRepository
     val scannedDevices: LiveData<ArrayList<OmronPeripheral>>
         get() = _scannedDevices
 
-    fun startScan() {
-        loading = true
+    private val _scanning = MutableLiveData<Boolean>(false)
+    val isScanning: LiveData<Boolean>
+        get() = _scanning
+
+    fun toggleScan() {
+        val currentState = _scanning.value ?: false
+        if (currentState) {
+            startScan()
+        } else {
+            stopScan()
+        }
+        _scanning.postValue(!currentState)
+    }
+
+    private fun startScan() {
         repository.startScan()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -32,7 +45,7 @@ class DeviceViewModel @Inject constructor(private val repository: ScanRepository
             }
     }
 
-    fun stopScan() {
+    private fun stopScan() {
 
     }
 }
