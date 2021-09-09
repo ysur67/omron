@@ -29,7 +29,7 @@ class ScannedDevicesFragment : Fragment() {
     private var _binding: FragmentScannedDevicesBinding? = null
     private val binding get() = _binding!!
 
-    private var adapter = ScannedDeviceAdapter(ArrayList<OmronPeripheral>())
+    private var adapter = ScannedDeviceAdapter(ArrayList())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

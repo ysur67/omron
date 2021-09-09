@@ -10,7 +10,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class DeviceViewModel @Inject constructor(private val repository: ScanRepository) : BaseViewModel() {
+class DeviceViewModel @Inject constructor(
+    private val repository: ScanRepository
+    ) : BaseViewModel() {
     init {
         repository.init()
     }
@@ -19,7 +21,7 @@ class DeviceViewModel @Inject constructor(private val repository: ScanRepository
     val scannedDevices: LiveData<ArrayList<OmronPeripheral>>
         get() = _scannedDevices
 
-    private val _scanning = MutableLiveData<Boolean>(false)
+    private val _scanning = MutableLiveData(false)
     val isScanning: LiveData<Boolean>
         get() = _scanning
 
