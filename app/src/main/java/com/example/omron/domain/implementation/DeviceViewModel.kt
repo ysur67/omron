@@ -48,6 +48,7 @@ class DeviceViewModel @Inject constructor(
     }
 
     private fun stopScan() {
-
+        repository.stopScan()
+        _scannedDevices.postValue(ArrayList())
     }
 }

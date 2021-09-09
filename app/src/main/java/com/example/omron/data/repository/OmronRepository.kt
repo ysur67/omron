@@ -55,7 +55,6 @@ class OmronRepository @Inject constructor(
     }
 
     override fun stopScan() {
-        TODO("Not yet implemented")
+        manager.stopScanPeripherals()
     }
-
 }
