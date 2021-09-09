@@ -7,6 +7,10 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdk 31
 
+    buildFeatures {
+        viewBinding true
+    }
+
     defaultConfig {
         applicationId "com.example.omron"
         minSdk 23
