@@ -10,6 +10,8 @@ import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.LibraryManager.
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.ErrorInfo
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeripheral
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.OmronUtility.OmronConstants
+import io.reactivex.rxjava3.core.BackpressureStrategy
+import io.reactivex.rxjava3.core.Flowable
 import java.lang.NullPointerException
 import javax.inject.Inject
 
@@ -38,18 +40,18 @@ class OmronRepository @Inject constructor(
         manager.startManager()
     }
 
-    override fun startScan() {
-        val listener =
-            OmronPeripheralManagerScanListener { scannedPeripherals, error ->
-                if (scannedPeripherals != null) {
-                    for (peripheral in scannedPeripherals) {
-                        Log.e(DEBUG_TAG, "FOUND NEW DEVICE ${peripheral.modelName}")
+    override fun startScan() : Flowable<ArrayList<OmronPeripheral>> {
+        return Flowable.create({
+            val listener =
+                OmronPeripheralManagerScanListener { scannedPeripherals, error ->
+                    if (scannedPeripherals != null) {
+                        it.onNext(scannedPeripherals)
+                    } else {
+                        it.onError(NullPointerException(error.messageInfo))
                     }
-                } else {
-                    throw NullPointerException("sdf")
                 }
-            }
-        manager.startScanPeripherals(listener)
+            manager.startScanPeripherals(listener)
+        }, BackpressureStrategy.LATEST)
     }
 
     override fun stopScan() {
