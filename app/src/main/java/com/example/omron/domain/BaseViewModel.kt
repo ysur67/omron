@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 open class BaseViewModel : ViewModel() {
 
     private val _isLoading = MutableLiveData(false)
-    protected var loading = null
+    protected var loading = false
         set(value) = _isLoading.postValue(value)
     val isLoading: LiveData<Boolean>
         get() = _isLoading
