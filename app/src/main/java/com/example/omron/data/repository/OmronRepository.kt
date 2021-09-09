@@ -17,30 +17,10 @@ class OmronRepository @Inject constructor(
     private val context: Context
     ) : ScanRepository {
 
-    private var manager: SharedManager
-    init {
-        manager = OmronPeripheralManager.sharedManager(context)
-        OmronPeripheralManagerConfig.timeoutInterval = Const.DISCOVER_TIMEOUT
-        OmronPeripheralManagerConfig.userHashId = "test@gtes.com"
-
-        val bloodPressureSettings = hashMapOf(
-            OmronConstants.OMRONDevicePersonalSettings.BloodPressureTruReadEnableKey to
-                    OmronConstants.OMRONDevicePersonalSettingsBloodPressureTruReadStatus.On,
-            OmronConstants.OMRONDevicePersonalSettings.BloodPressureTruReadIntervalKey to
-                    OmronConstants.OMRONDevicePersonalSettingsBloodPressureTruReadInterval.Interval30
-        )
-        val settings = hashMapOf(
-            OmronConstants.OMRONDevicePersonalSettings.BloodPressureKey to bloodPressureSettings
-        )
-        val personalSettings = hashMapOf(OmronConstants.OMRONDevicePersonalSettingsKey to settings)
-        OmronPeripheralManagerConfig.deviceSettings = arrayListOf(personalSettings)
-        manager.startManager()
-    }
-
+    private var manager: SharedManager = OmronPeripheralManager.sharedManager(context)
     private val DEBUG_TAG = "OMRON_SCANNER_SERVICE"
 
     override fun init() {
-        manager = OmronPeripheralManager.sharedManager(context)
         OmronPeripheralManagerConfig.timeoutInterval = Const.DISCOVER_TIMEOUT
         OmronPeripheralManagerConfig.userHashId = "test@gtes.com"
 
