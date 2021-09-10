@@ -4,6 +4,6 @@ import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeri
 import io.reactivex.rxjava3.core.Observable
 
 interface ConnectionRepository {
-    fun connect() : Observable<OmronPeripheral>
+    fun connect(device: OmronPeripheral) : Observable<OmronPeripheral>
     fun disconnect()
 }
