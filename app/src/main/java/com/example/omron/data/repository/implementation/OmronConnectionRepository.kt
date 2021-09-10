@@ -1,6 +1,7 @@
 package com.example.omron.data.repository.implementation
 
 import android.content.Context
+import android.util.Log
 import com.example.omron.data.repository.ConnectionRepository
 import com.example.omron.utils.Const
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Interface.OmronPeripheralManagerConnectListener
@@ -14,7 +15,9 @@ class OmronConnectionRepository @Inject constructor(
     ) : OmronBaseRepository(context), ConnectionRepository {
 
     override fun createBond(device: OmronPeripheral) {
-        manager.connectPeripheral(device, null)
+        manager.connectPeripheral(device) {_, _ ->
+
+        }
     }
 
     override fun disconnect() {

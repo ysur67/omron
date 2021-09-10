@@ -7,6 +7,7 @@ import com.example.omron.domain.BaseViewModel
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeripheral
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.lang.NullPointerException
 import javax.inject.Inject
 
 class ConnectionViewModel @Inject constructor(
@@ -16,16 +17,29 @@ class ConnectionViewModel @Inject constructor(
     val currentDevice: LiveData<OmronPeripheral>
         get() = _currentDevice
 
-    fun createBond(device: OmronPeripheral) {
-        repository.createBond(device)
+    private var _selectedDevice = MutableLiveData<OmronPeripheral>(null)
+    val selectedDevice: LiveData<OmronPeripheral>
+        get() = _selectedDevice
+
+    fun selectDevice(device: OmronPeripheral) {
+        _selectedDevice.postValue(device)
+    }
+
+    fun createBond() {
+        val currentDevice = _selectedDevice.value
+            ?: throw NullPointerException("Устройство не было выбрано")
+        loading = true
+        repository.createBond(currentDevice)
     }
 
     fun disconnect() {
         repository.disconnect()
     }
 
-    private fun resumeConnection(device: OmronPeripheral) {
-        repository.resumeConnection(device)
+    fun resumeConnection() {
+        val currentDevice = _selectedDevice.value
+            ?: throw NullPointerException("Устройство не было выбрано")
+        repository.resumeConnection(currentDevice)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .onErrorComplete{

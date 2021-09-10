@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Projects/Android/Omron/app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Projects/Android/Omron/app/src/main/res/layout/fragment_control_device.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/Android/Omron/app/src/main/res/layout/fragment_device_connection.xml" value="0.36666666666666664" />
         <entry key="..\:/Projects/Android/Omron/app/src/main/res/layout/fragment_scanned_devices.xml" value="0.33" />
         <entry key="..\:/Projects/Android/Omron/app/src/main/res/layout/scanned_device_list_item.xml" value="0.33" />
       </map>

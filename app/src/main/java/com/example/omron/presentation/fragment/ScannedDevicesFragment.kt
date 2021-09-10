@@ -18,6 +18,7 @@ import com.example.omron.domain.implementation.ScanViewModel
 import com.example.omron.presentation.adapter.ScannedDeviceAdapter
 import com.example.omron.utils.Const
 import com.vmadalin.easypermissions.EasyPermissions
+import java.lang.NullPointerException
 import javax.inject.Inject
 
 /**
@@ -64,8 +65,10 @@ class ScannedDevicesFragment : Fragment() {
             requestRequiredPermissions()
         }
         adapter.onItemClick = {
-            connectionViewModel.createBond(it)
+            connectionViewModel.selectDevice(it)
             scanViewModel.stopScan()
+            findNavController()
+                .navigate(R.id.action_scannedDevicesFragment_to_deviceConnectionFragment)
         }
         binding.scannedDeviceList.adapter = this.adapter
         binding.scannedDeviceList.layoutManager = LinearLayoutManager(activity)
@@ -75,11 +78,6 @@ class ScannedDevicesFragment : Fragment() {
         scanViewModel.scannedDevices.observe(viewLifecycleOwner, {
             if (it == null) return@observe
             adapter.add(it)
-        })
-        connectionViewModel.currentDevice.observe(viewLifecycleOwner, {
-            if (it == null) return@observe
-            findNavController()
-                .navigate(R.id.action_scannedDevicesFragment_to_controlDeviceFragment)
         })
     }
 
