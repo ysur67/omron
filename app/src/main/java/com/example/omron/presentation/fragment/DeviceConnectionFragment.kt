@@ -40,11 +40,10 @@ class DeviceConnectionFragment : Fragment() {
                 val device = intent
                     .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
                 if (device?.bondState == BluetoothDevice.BOND_BONDED) {
-                    connectionViewModel.resumeConnection()
+                    connectionViewModel.onDeviceDidBond()
                 }
             }
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -26,8 +26,7 @@ class ConnectionViewModel @Inject constructor(
     }
 
     fun createBond() {
-        val currentDevice = _selectedDevice.value
-            ?: throw NullPointerException("Устройство не было выбрано")
+        val currentDevice = requireDevice()
         loading = true
         repository.createBond(currentDevice)
     }
@@ -37,8 +36,7 @@ class ConnectionViewModel @Inject constructor(
     }
 
     fun resumeConnection() {
-        val currentDevice = _selectedDevice.value
-            ?: throw NullPointerException("Устройство не было выбрано")
+        val currentDevice = requireDevice()
         repository.resumeConnection(currentDevice)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -48,5 +46,14 @@ class ConnectionViewModel @Inject constructor(
             .subscribe{
                 _currentDevice.postValue(it)
             }
+    }
+
+    fun onDeviceDidBond() {
+        val selectedDevice = requireDevice()
+        _currentDevice.postValue(selectedDevice)
+    }
+
+    private fun requireDevice() : OmronPeripheral {
+        return _selectedDevice.value ?: throw NullPointerException("Устройство не было выбрано")
     }
 }
