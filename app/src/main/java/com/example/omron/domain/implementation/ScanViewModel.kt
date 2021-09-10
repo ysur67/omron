@@ -24,11 +24,7 @@ class ScanViewModel @Inject constructor(
 
     fun toggleScan() {
         val currentState = _scanning.value ?: false
-        if (currentState) {
-            startScan()
-        } else {
-            stopScan()
-        }
+        if (currentState) stopScan() else startScan()
     }
 
     fun startScan() {
