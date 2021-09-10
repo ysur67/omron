@@ -83,6 +83,11 @@ class ScannedDevicesFragment : Fragment() {
         })
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun requestRequiredPermissions() {
         EasyPermissions.requestPermissions(
             host = this,
