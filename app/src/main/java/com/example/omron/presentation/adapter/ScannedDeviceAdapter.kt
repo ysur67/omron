@@ -17,6 +17,8 @@ class ScannedDeviceAdapter(
         val deviceRssi: TextView = view.findViewById(R.id.device_rssi)
     }
 
+    var onItemClick: ((OmronPeripheral) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.scanned_device_list_item, parent, false)
@@ -29,6 +31,7 @@ class ScannedDeviceAdapter(
         holder.deviceTitle.text = current.modelName
         holder.deviceMac.text = current.uuid
         holder.deviceRssi.text = current.rssi.toString()
+        holder.itemView.setOnClickListener{ onItemClick?.invoke(current) }
     }
 
     override fun getItemCount(): Int {
