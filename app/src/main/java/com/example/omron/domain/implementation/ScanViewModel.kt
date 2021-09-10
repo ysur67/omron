@@ -13,9 +13,6 @@ import javax.inject.Inject
 class ScanViewModel @Inject constructor(
     private val repository: ScanRepository
     ) : BaseViewModel() {
-    init {
-        repository.init()
-    }
 
     private val _scannedDevices = MutableLiveData<ArrayList<OmronPeripheral>>(null)
     val scannedDevices: LiveData<ArrayList<OmronPeripheral>>
