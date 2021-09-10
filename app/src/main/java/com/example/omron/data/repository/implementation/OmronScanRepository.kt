@@ -36,8 +36,4 @@ class OmronScanRepository @Inject constructor(
     override fun stopScan() {
         manager.stopScanPeripherals()
     }
-
-    override fun connect(device: OmronPeripheral) {
-
-    }
 }

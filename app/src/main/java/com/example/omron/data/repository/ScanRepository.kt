@@ -7,5 +7,4 @@ import io.reactivex.rxjava3.core.Flowable
 interface ScanRepository {
     fun startScan() : Flowable<ArrayList<OmronPeripheral>>
     fun stopScan()
-    fun connect(device: OmronPeripheral)
 }
