@@ -64,7 +64,7 @@ class ScannedDevicesFragment : Fragment() {
             requestRequiredPermissions()
         }
         adapter.onItemClick = {
-            connectionViewModel.connect(it)
+            connectionViewModel.createBond(it)
             scanViewModel.stopScan()
         }
         binding.scannedDeviceList.adapter = this.adapter
