@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.omron.OmronApp
 import com.example.omron.R
@@ -74,6 +75,11 @@ class ScannedDevicesFragment : Fragment() {
         viewModel.scannedDevices.observe(viewLifecycleOwner, {
             if (it == null) return@observe
             adapter.add(it)
+        })
+        connectionViewModel.currentDevice.observe(viewLifecycleOwner, {
+            if (it == null) return@observe
+            findNavController()
+                .navigate(R.id.action_scannedDevicesFragment_to_controlDeviceFragment)
         })
     }
 

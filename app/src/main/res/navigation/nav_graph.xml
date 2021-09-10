@@ -9,5 +9,14 @@
         android:id="@+id/scannedDevicesFragment"
         android:name="com.example.omron.presentation.fragment.ScannedDevicesFragment"
         android:label="fragment_scanned_devices"
-        tools:layout="@layout/fragment_scanned_devices" />
+        tools:layout="@layout/fragment_scanned_devices" >
+        <action
+            android:id="@+id/action_scannedDevicesFragment_to_controlDeviceFragment"
+            app:destination="@id/controlDeviceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/controlDeviceFragment"
+        android:name="com.example.omron.presentation.fragment.ControlDeviceFragment"
+        android:label="fragment_control_device"
+        tools:layout="@layout/fragment_control_device" />
 </navigation>

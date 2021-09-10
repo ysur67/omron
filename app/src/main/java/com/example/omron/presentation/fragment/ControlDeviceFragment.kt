@@ -47,7 +47,6 @@ class ControlDeviceFragment : Fragment() {
          *
          * @return A new instance of fragment ControlDeviceFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() = ControlDeviceFragment()
     }
