@@ -29,10 +29,10 @@ class ScanViewModel @Inject constructor(
         } else {
             stopScan()
         }
-        _scanning.postValue(!currentState)
     }
 
-    private fun startScan() {
+    fun startScan() {
+        _scanning.postValue(true)
         repository.startScan()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,7 +44,8 @@ class ScanViewModel @Inject constructor(
             }
     }
 
-    private fun stopScan() {
+    fun stopScan() {
+        _scanning.postValue(false)
         repository.stopScan()
         _scannedDevices.postValue(ArrayList())
     }

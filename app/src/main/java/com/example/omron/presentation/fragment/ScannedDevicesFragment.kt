@@ -28,7 +28,7 @@ import javax.inject.Inject
 class ScannedDevicesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: ScanViewModel by activityViewModels { viewModelFactory }
+    private val scanViewModel: ScanViewModel by activityViewModels { viewModelFactory }
     private val connectionViewModel: ConnectionViewModel by activityViewModels { viewModelFactory }
 
     private var _binding: FragmentScannedDevicesBinding? = null
@@ -65,14 +65,14 @@ class ScannedDevicesFragment : Fragment() {
         }
         adapter.onItemClick = {
             connectionViewModel.connect(it)
-            viewModel.toggleScan()
+            scanViewModel.stopScan()
         }
         binding.scannedDeviceList.adapter = this.adapter
         binding.scannedDeviceList.layoutManager = LinearLayoutManager(activity)
         binding.toggleScanButton.setOnClickListener{
-            viewModel.toggleScan()
+            scanViewModel.toggleScan()
         }
-        viewModel.scannedDevices.observe(viewLifecycleOwner, {
+        scanViewModel.scannedDevices.observe(viewLifecycleOwner, {
             if (it == null) return@observe
             adapter.add(it)
         })
