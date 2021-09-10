@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.omron.di.ViewModelFactory
 import com.example.omron.di.ViewModelKey
-import com.example.omron.domain.implementation.DeviceViewModel
+import com.example.omron.domain.implementation.ScanViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -19,6 +19,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DeviceViewModel::class)
-    abstract fun bindDeviceViewModel(viewModel: DeviceViewModel) : ViewModel
+    @ViewModelKey(ScanViewModel::class)
+    abstract fun bindScanViewModel(viewModel: ScanViewModel) : ViewModel
 }

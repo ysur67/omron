@@ -8,4 +8,5 @@ interface ScanRepository {
     fun init()
     fun startScan() : Flowable<ArrayList<OmronPeripheral>>
     fun stopScan()
+    fun connect(device: OmronPeripheral)
 }

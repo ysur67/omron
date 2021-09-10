@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.omron.OmronApp
-import com.example.omron.R
 import com.example.omron.databinding.FragmentScannedDevicesBinding
 import com.example.omron.di.ViewModelFactory
-import com.example.omron.domain.implementation.DeviceViewModel
+import com.example.omron.domain.implementation.ScanViewModel
 import com.example.omron.presentation.adapter.ScannedDeviceAdapter
-import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeripheral
 import javax.inject.Inject
 
 /**
@@ -24,7 +22,7 @@ import javax.inject.Inject
 class ScannedDevicesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: DeviceViewModel by activityViewModels { viewModelFactory }
+    private val viewModel: ScanViewModel by activityViewModels { viewModelFactory }
 
     private var _binding: FragmentScannedDevicesBinding? = null
     private val binding get() = _binding!!

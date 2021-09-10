@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import javax.inject.Inject
 
-class DeviceViewModel @Inject constructor(
+class ScanViewModel @Inject constructor(
     private val repository: ScanRepository
     ) : BaseViewModel() {
     init {
