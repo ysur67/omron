@@ -1,5 +1,6 @@
 package com.example.omron.presentation.fragment
 
+import android.Manifest
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,11 +9,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.omron.OmronApp
+import com.example.omron.R
 import com.example.omron.databinding.FragmentScannedDevicesBinding
 import com.example.omron.di.ViewModelFactory
 import com.example.omron.domain.implementation.ConnectionViewModel
 import com.example.omron.domain.implementation.ScanViewModel
 import com.example.omron.presentation.adapter.ScannedDeviceAdapter
+import com.example.omron.utils.Const
+import com.vmadalin.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 /**
@@ -31,6 +35,15 @@ class ScannedDevicesFragment : Fragment() {
 
     private var adapter = ScannedDeviceAdapter(ArrayList())
 
+    private val hasPermissions: Boolean
+        get() = EasyPermissions.hasPermissions(
+            activity,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.BLUETOOTH_PRIVILEGED,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.INTERNET
+        )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as OmronApp).appComponent.inject(this)
@@ -46,6 +59,9 @@ class ScannedDevicesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!hasPermissions) {
+            requestRequiredPermissions()
+        }
         adapter.onItemClick = {
             connectionViewModel.connect(it)
             viewModel.toggleScan()
@@ -59,6 +75,18 @@ class ScannedDevicesFragment : Fragment() {
             if (it == null) return@observe
             adapter.add(it)
         })
+    }
+
+    private fun requestRequiredPermissions() {
+        EasyPermissions.requestPermissions(
+            host = this,
+            rationale = getString(R.string.permissions_rationale),
+            requestCode = Const.REQUEST_PERMISSIONS_CODE,
+            Manifest.permission.BLUETOOTH_ADMIN,
+            Manifest.permission.BLUETOOTH_PRIVILEGED,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.INTERNET
+        )
     }
 
     companion object {
