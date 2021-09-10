@@ -6,12 +6,14 @@ import androidx.activity.viewModels
 import com.example.omron.OmronApp
 import com.example.omron.databinding.ActivityMainBinding
 import com.example.omron.di.ViewModelFactory
+import com.example.omron.domain.implementation.ConnectionViewModel
 import com.example.omron.domain.implementation.ScanViewModel
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
     private val scanViewModel: ScanViewModel by viewModels { viewModelFactory }
+    private val connectionViewModel: ConnectionViewModel by viewModels { viewModelFactory }
 
     private lateinit var binding: ActivityMainBinding
 

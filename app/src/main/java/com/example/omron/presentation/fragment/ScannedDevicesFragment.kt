@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.omron.OmronApp
 import com.example.omron.databinding.FragmentScannedDevicesBinding
 import com.example.omron.di.ViewModelFactory
+import com.example.omron.domain.implementation.ConnectionViewModel
 import com.example.omron.domain.implementation.ScanViewModel
 import com.example.omron.presentation.adapter.ScannedDeviceAdapter
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class ScannedDevicesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private val viewModel: ScanViewModel by activityViewModels { viewModelFactory }
+    private val connectionViewModel: ConnectionViewModel by activityViewModels { viewModelFactory }
 
     private var _binding: FragmentScannedDevicesBinding? = null
     private val binding get() = _binding!!
@@ -44,6 +46,10 @@ class ScannedDevicesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter.onItemClick = {
+            connectionViewModel.connect(it)
+            viewModel.toggleScan()
+        }
         binding.scannedDeviceList.adapter = this.adapter
         binding.scannedDeviceList.layoutManager = LinearLayoutManager(activity)
         binding.toggleScanButton.setOnClickListener{
