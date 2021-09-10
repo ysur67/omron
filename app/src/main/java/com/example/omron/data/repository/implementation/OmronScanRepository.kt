@@ -1,13 +1,12 @@
-package com.example.omron.data.repository
+package com.example.omron.data.repository.implementation
 
 import android.content.Context
-import android.util.Log
+import com.example.omron.data.repository.ScanRepository
 import com.example.omron.utils.Const
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.DeviceConfiguration.OmronPeripheralManagerConfig
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Interface.OmronPeripheralManagerScanListener
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.LibraryManager.OmronPeripheralManager
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.LibraryManager.SharedManager
-import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.ErrorInfo
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeripheral
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.OmronUtility.OmronConstants
 import io.reactivex.rxjava3.core.BackpressureStrategy
@@ -15,7 +14,7 @@ import io.reactivex.rxjava3.core.Flowable
 import java.lang.NullPointerException
 import javax.inject.Inject
 
-class OmronRepository @Inject constructor(
+class OmronScanRepository @Inject constructor(
     private val context: Context
     ) : ScanRepository {
 
