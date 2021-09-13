@@ -2,10 +2,12 @@ package com.example.omron.domain.implementation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.omron.data.repository.ConnectionRepository
 import com.example.omron.domain.BaseViewModel
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeripheral
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.NullPointerException
 import javax.inject.Inject
@@ -35,22 +37,21 @@ class ConnectionViewModel @Inject constructor(
         repository.disconnect()
     }
 
-    fun resumeConnection() {
-        val currentDevice = requireDevice()
-        repository.resumeConnection(currentDevice)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .onErrorComplete{
+    fun onDeviceDidBond() {
+        val selectedDevice = requireDevice()
+        repository.startDataTransfer(selectedDevice)
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError {
                 throw it
             }
-            .subscribe{
+            .doOnNext{
                 _currentDevice.postValue(it)
             }
     }
 
-    fun onDeviceDidBond() {
-        val selectedDevice = requireDevice()
-        _currentDevice.postValue(selectedDevice)
+    fun requestRecordsData() {
+
     }
 
     private fun requireDevice() : OmronPeripheral {

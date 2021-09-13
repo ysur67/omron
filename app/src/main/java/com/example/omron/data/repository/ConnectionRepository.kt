@@ -7,4 +7,6 @@ interface ConnectionRepository {
     fun createBond(device: OmronPeripheral)
     fun disconnect()
     fun resumeConnection(device: OmronPeripheral) : Observable<OmronPeripheral>
+    fun startDataTransfer(device: OmronPeripheral) : Observable<OmronPeripheral>
+    fun getRecordsData(device: OmronPeripheral) : Observable<HashMap<String, Any>>
 }

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import com.example.omron.OmronApp
 import com.example.omron.R
 import com.example.omron.databinding.FragmentDeviceConnectionBinding
@@ -66,7 +67,9 @@ class DeviceConnectionFragment : Fragment() {
         connectionViewModel.createBond()
         connectionViewModel.currentDevice.observe(viewLifecycleOwner, {
             if (it == null) return@observe
-            makeSnack("Устройство: ${it.modelName} успешно подключено")
+            makeSnack("Устройство ${it.modelName} успешно подключено")
+            findNavController()
+                .navigate(R.id.action_deviceConnectionFragment_to_controlDeviceFragment)
         })
     }
 
