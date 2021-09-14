@@ -34,23 +34,8 @@ class DeviceConnectionFragment : Fragment() {
     private var _binding: FragmentDeviceConnectionBinding? = null
     private val binding get() = _binding!!
 
-    private val bondStateChangeReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            if (BluetoothDevice.ACTION_BOND_STATE_CHANGED == action) {
-                val device = intent
-                    .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-                if (device?.bondState == BluetoothDevice.BOND_BONDED) {
-                    connectionViewModel.onDeviceDidBond()
-                }
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intentFilter = IntentFilter(BluetoothDevice.ACTION_BOND_STATE_CHANGED)
-        activity?.registerReceiver(bondStateChangeReceiver, intentFilter)
         (activity?.application as OmronApp).appComponent.inject(this)
     }
 

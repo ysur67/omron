@@ -1,5 +1,6 @@
 package com.example.omron.domain.implementation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -10,6 +11,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.NullPointerException
+import java.util.logging.Handler
 import javax.inject.Inject
 
 class ConnectionViewModel @Inject constructor(
@@ -31,15 +33,52 @@ class ConnectionViewModel @Inject constructor(
         val currentDevice = requireDevice()
         loading = true
         repository.createBond(currentDevice)
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError{
+                throw it
+            }
+            .subscribe{
+                onDeviceDidBond(it)
+            }
     }
 
     fun disconnect() {
         repository.disconnect()
     }
 
-    fun onDeviceDidBond() {
-        val selectedDevice = requireDevice()
-        repository.startDataTransfer(selectedDevice)
+    private fun onDeviceDidBond(device: OmronPeripheral) {
+        repository.resumeConnection(device)
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .doOnError{
+                throw it
+            }
+            .subscribe {
+                startDataTransfer(it)
+            }
+    }
+
+    fun requestRecordsData() {
+        val currentDevice = requireDevice()
+        repository.getRecordsData(currentDevice)
+            .observeOn(Schedulers.io())
+            .subscribeOn(AndroidSchedulers.mainThread())
+            .onErrorComplete{
+                throw it
+            }
+            .subscribe{
+                Log.e("DEVICE", "$it")
+            }
+
+    }
+
+    private fun requireDevice() : OmronPeripheral {
+        return _selectedDevice.value ?: throw NullPointerException("Устройство не было выбрано")
+    }
+
+    private fun startDataTransfer(device: OmronPeripheral) {
+        repository.startDataTransfer(device)
             .observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
             .doOnError {
@@ -48,13 +87,5 @@ class ConnectionViewModel @Inject constructor(
             .doOnNext{
                 _currentDevice.postValue(it)
             }
-    }
-
-    fun requestRecordsData() {
-
-    }
-
-    private fun requireDevice() : OmronPeripheral {
-        return _selectedDevice.value ?: throw NullPointerException("Устройство не было выбрано")
     }
 }

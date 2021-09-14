@@ -2,9 +2,12 @@ package com.example.omron.data.repository.implementation
 
 import android.content.Context
 import com.example.omron.utils.Const
+import com.example.omron.utils.isEmpty
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.DeviceConfiguration.OmronPeripheralManagerConfig
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.LibraryManager.OmronPeripheralManager
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.LibraryManager.SharedManager
+import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.ErrorInfo
+import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.Model.OmronPeripheral
 import com.omronhealthcare.OmronConnectivityLibrary.OmronLibrary.OmronUtility.OmronConstants
 
 open class OmronBaseRepository(protected val context: Context) {
@@ -26,5 +29,9 @@ open class OmronBaseRepository(protected val context: Context) {
         val personalSettings = hashMapOf(OmronConstants.OMRONDevicePersonalSettingsKey to settings)
         OmronPeripheralManagerConfig.deviceSettings = arrayListOf(personalSettings)
         manager.startManager()
+    }
+
+    protected fun resultIsOk(device: OmronPeripheral?, error: ErrorInfo) : Boolean {
+        return device != null && error.isEmpty
     }
 }
